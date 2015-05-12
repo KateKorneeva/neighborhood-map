@@ -39,15 +39,17 @@ function initialize() {
 
 	var ViewModel = function () {
 		var self = this;
-		this.markerList = ko.observableArray([]);
+		self.markerList = ko.observableArray([]);
 		initialMarkers.forEach( function(marker) {
 			self.markerList.push(new google.maps.Marker(marker));
 			console.log(marker);
 		});
 
-		var userInput = "la";
+		self.userInput = ko.observable("fe");
+
 		initialMarkers.forEach( function(marker) {
-			if (marker.title.indexOf(userInput) >= 0) {
+			console.log(self.userInput());
+			if (marker.title.indexOf(self.userInput()) >= 0) {
 				console.log("epic win");
 			};
 		});
