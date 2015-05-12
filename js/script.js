@@ -1,12 +1,3 @@
-// var Marker = function (markerObject) {
-// 	var position = ko.observable(markerObject.position);
-// 	var map = ko.observable(markerObject.map);
-// 	var title = ko.observable(markerObject.title);
-// 	var draggable = ko.observable(markerObject.draggable);
-// 	var animation = ko.observable(markerObject.animation);
-// };
-
-
 function initialize() {
 
 	var cafe = new google.maps.LatLng(52.535372, 13.422328);
@@ -14,12 +5,12 @@ function initialize() {
 	var lalala = new google.maps.LatLng(52.533258, 13.437248);
 
 	var mapProp = {
-		center:new google.maps.LatLng(52.531283, 13.422102),
-		zoom:15,
-		mapTypeId:google.maps.MapTypeId.ROADMAP
+		center: new google.maps.LatLng(52.531283, 13.422102),
+		zoom: 15,
+		mapTypeId: google.maps.MapTypeId.ROADMAP
 	};
 
-	var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+	var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
 
 	var initialMarkers = [
 		{
@@ -52,7 +43,14 @@ function initialize() {
 		initialMarkers.forEach( function(marker) {
 			self.markerList.push(new google.maps.Marker(marker));
 			console.log(marker);
-		})
+		});
+
+		var userInput = "la";
+		initialMarkers.forEach( function(marker) {
+			if (marker.title.indexOf(userInput) >= 0) {
+				console.log("epic win");
+			};
+		});
 	};
 
 	ko.applyBindings(new ViewModel());
