@@ -34,16 +34,13 @@ var ViewModel = function () {
 	self.userInput = ko.observable("");
 
 	self.searchFilter = ko.pureComputed(function() {
-		var testVar = "";
-		// how to check multiple things without horisontal coding????
-		if (self.userInput() != "") {
-			initialPlaces.forEach( function(placeObj) {
-				if (placeObj.name.indexOf(self.userInput()) >= 0) {
-					testVar = placeObj.name;
-					console.log(testVar);
-				}
-			});
-		}
+		var testVar = [];
+		initialPlaces.forEach( function(placeObj, i) {
+			if (placeObj.name.indexOf(self.userInput()) >= 0) {
+				testVar.push(placeObj.name);
+				console.log(testVar[i]);
+			}
+		});
 		return testVar;
 	}, this);
 };
