@@ -1,3 +1,5 @@
+
+
 function initialize() {
 
 	var cafe = new google.maps.LatLng(52.535372, 13.422328);
@@ -45,7 +47,13 @@ function initialize() {
 			console.log(marker);
 		});
 
-		self.userInput = ko.observable("fe");
+		self.userInput = ko.observable("fe");// why is it not updated when i input another thing?
+
+		self.testt = ko.pureComputed(function() {
+			// Knockout tracks dependencies automatically. It knows that fullName depends on firstName and lastName, because these get called when evaluating fullName.
+			return self.userInput() + " something";
+		}, this);
+		console.log(self.testt());
 
 		initialMarkers.forEach( function(marker) {
 			console.log(self.userInput());
