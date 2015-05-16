@@ -29,17 +29,19 @@ var ViewModel = function () {
 	self.places = ko.observableArray([]);
 	initialPlaces.forEach( function(placeObj) {
 		self.places.push(new Place(placeObj));
-		console.log(placeObj);
 	});
 
-	self.userInput = ko.observable("fe");
+	self.userInput = ko.observable("");
 
-	initialPlaces.forEach( function(placeObj) {
-		console.log(self.userInput());
-		if (placeObj.name.indexOf(self.userInput()) >= 0) {
-			console.log("epic win");
-		}
-	});
+	self.searchFilter = ko.pureComputed(function() {
+		var testVar = "";
+		initialPlaces.forEach( function(placeObj) {
+			if (placeObj.name.indexOf(self.userInput()) >= 0) {
+				testVar = placeObj.name;
+			}
+		});
+		return testVar;
+	}, this);
 };
 
 function Place(placeObj) {
