@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="UTF-8">
-	<title>Neighborhood</title>
-	<script src="https://maps.googleapis.com/maps/api/js"></script>
+	<head>
+		<meta charset="UTF-8">
+		<title>Neighborhood</title>
+		<script src="https://maps.googleapis.com/maps/api/js"></script>
+		<script type="text/javascript" src="js/lib/knockout-3.3.0.js"></script>
+		<link rel="stylesheet" type="text/css" href="styles.css">
+	</head>
+	<body>
+		<input id="pac-input" class="controls" type="text" placeholder="Search Box" data-bind="value: userInput">
+		<div id="googleMap" class="map"></div>
+	</body>
 	<script type="text/javascript" src="js/script.js"></script>
-	<script type="text/javascript" src="js/lib/knockout-3.3.0.js"></script>
-	<link rel="stylesheet" type="text/css" href="styles.css">
-</head>
-<body>
-	<input id="pac-input" class="controls" type="text" placeholder="Search Box" data-bind="value: userInput">
-	<div id="googleMap" class="map"></div>
-</body>
 </html>

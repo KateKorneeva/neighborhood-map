@@ -1,68 +1,58 @@
+var initialPlaces = [
+	{
+		lat: 52.535372,
+		longt: 13.425483,
+		name: 'Cafe'
+	},
+	{
+		lat: 52.534217,
+		longt: 13.422328,
+		name: 'Supermarkt'
+	},
+	{
+		lat: 52.533258,
+		longt: 13.437248,
+		name: 'Shop'
+	}
+];
 
+var mapProp = {
+	center: new google.maps.LatLng(52.531283, 13.422102),
+	zoom: 15,
+	mapTypeId: google.maps.MapTypeId.ROADMAP
+};
 
-function initialize() {
+var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
 
-	var cafe = new google.maps.LatLng(52.535372, 13.422328);
-	var supermarket = new google.maps.LatLng(52.534217, 13.425483);
-	var lalala = new google.maps.LatLng(52.533258, 13.437248);
+var ViewModel = function () {
+	var self = this;
+	self.places = ko.observableArray([]);
+	initialPlaces.forEach( function(placeObj) {
+		self.places.push(new Place(placeObj));
+		console.log(placeObj);
+	});
 
-	var mapProp = {
-		center: new google.maps.LatLng(52.531283, 13.422102),
-		zoom: 15,
-		mapTypeId: google.maps.MapTypeId.ROADMAP
-	};
+	self.userInput = ko.observable("fe");
 
-	var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
-
-	var initialMarkers = [
-		{
-			position: cafe,
-			map: map,
-			title: 'Cafe',
-			draggable: true,
-			animation: google.maps.Animation.DROP
-		},
-		{
-			position: supermarket,
-			map: map,
-			title: 'Supermarket',
-			draggable: true,
-			animation: google.maps.Animation.DROP
-		},
-		{
-			position: lalala,
-			map: map,
-			title: 'Lalala',
-			draggable: true,
-			animation: google.maps.Animation.DROP
+	initialPlaces.forEach( function(placeObj) {
+		console.log(self.userInput());
+		if (placeObj.name.indexOf(self.userInput()) >= 0) {
+			console.log("epic win");
 		}
-	];
+	});
+};
 
+function Place(placeObj) {
+	this.name = placeObj.name;
+	this.lat = ko.observable(placeObj.lat);
+	this.longt = ko.observable(placeObj.longt);
 
-	var ViewModel = function () {
-		var self = this;
-		self.markerList = ko.observableArray([]);
-		initialMarkers.forEach( function(marker) {
-			self.markerList.push(new google.maps.Marker(marker));
-			console.log(marker);
-		});
-
-		self.userInput = ko.observable("fe");// why is it not updated when i input another thing?
-
-		self.testt = ko.pureComputed(function() {
-			// Knockout tracks dependencies automatically. It knows that fullName depends on firstName and lastName, because these get called when evaluating fullName.
-			return self.userInput() + " something";
-		}, this);
-		console.log(self.testt());
-
-		initialMarkers.forEach( function(marker) {
-			console.log(self.userInput());
-			if (marker.title.indexOf(self.userInput()) >= 0) {
-				console.log("epic win");
-			};
-		});
-	};
-
-	ko.applyBindings(new ViewModel());
+	var marker = new google.maps.Marker({
+		position: new google.maps.LatLng(this.lat, this.longt),
+		title: name,
+		map: map,
+		draggable: true
+	});
 }
-google.maps.event.addDomListener(window, 'load', initialize);
+
+ko.applyBindings(new ViewModel());
