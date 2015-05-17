@@ -3,14 +3,15 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Neighborhood</title>
-		<script src="https://maps.googleapis.com/maps/api/js"></script>
-		<script type="text/javascript" src="js/lib/knockout-3.3.0.js"></script>
 		<link rel="stylesheet" type="text/css" href="styles.css">
 	</head>
 	<body>
 		<input id="pac-input" class="controls" type="text" placeholder="Search Box" data-bind="value: userInput">
 		<p>output: <span data-bind="text: searchFilter"></span></p>
 		<div id="googleMap" class="map"></div>
+		
+		<script type="text/javascript" src="js/lib/knockout-3.3.0.js"></script>
+		<script src="https://maps.googleapis.com/maps/api/js"></script>
+		<script type="text/javascript" src="js/script.js"></script>
 	</body>
-	<script type="text/javascript" src="js/script.js"></script>
 </html>
