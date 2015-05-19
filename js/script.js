@@ -43,28 +43,25 @@ var ViewModel = function () {
 	self.userInput = ko.observable("");
 	self.places = ko.observableArray([]);
 	var filteredPlaces = [];
-	var testPlaces = [];
-
-	// need to show only filtered places
 
 	initialPlaces.forEach( function(placeObj) {
-		if (placeObj.name.indexOf(self.userInput()) >= 0) {
-			filteredPlaces.push(new Place(placeObj));
+		self.places.push(new Place(placeObj));
+	});
+
+	self.places().forEach( function(place) {
+		if (place.name.indexOf(self.userInput()) < 0) {
+			place.marker.setVisible(false); // doesn't work. idea is to hide markers that are not according to filter
 		}
 	});
 
-	// filteredPlaces.forEach( function(placeObj) {
-	// 	self.places.push(new Place(placeObj));
-	// });
-
-	self.searchFilter = ko.pureComputed(function() {
-		initialPlaces.forEach( function(placeObj, i) {
-			if (placeObj.name.indexOf(self.userInput()) >= 0) {
-				testPlaces.push(placeObj.name);
-			}
-		});
-		return testPlaces;
-	}, this);
+	// self.searchFilter = ko.pureComputed(function() {
+	// 	initialPlaces.forEach( function(placeObj, i) {
+	// 		if (placeObj.name.indexOf(self.userInput()) >= 0) {
+	// 			testPlaces.push(placeObj.name);
+	// 		}
+	// 	});
+	// 	return testPlaces;
+	// }, this);
 };
 
 ko.applyBindings(new ViewModel());

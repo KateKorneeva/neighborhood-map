@@ -7,7 +7,8 @@
 	</head>
 	<body>
 		<input id="pac-input" class="controls" type="text" placeholder="Search Box" data-bind="value: userInput">
-		<p>output: <span data-bind="text: searchFilter"></span></p>
+		<p>output:</p>
+		<ul data-bind="foreach: places"><li data-bind="text: name"></li></ul>
 		<div id="googleMap" class="map"></div>
 		
 		<script type="text/javascript" src="js/lib/knockout-3.3.0.js"></script>
