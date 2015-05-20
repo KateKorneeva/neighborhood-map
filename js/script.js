@@ -17,12 +17,9 @@ var initialPlaces = [
 ];
 
 function Place(placeObj) {
-	this.name = placeObj.name;
-	this.position = new google.maps.LatLng(placeObj.lat, placeObj.longt);
-
 	var marker = new google.maps.Marker({
-		position: this.position,
-		title: name,
+		position: new google.maps.LatLng(placeObj.lat, placeObj.longt),
+		title: placeObj.name,
 		map: map,
 		draggable: true,
 		animation: google.maps.Animation.DROP
@@ -41,27 +38,6 @@ var ViewModel = function () {
 	var self = this;
 
 	self.userInput = ko.observable("");
-	self.places = ko.observableArray([]);
-	var filteredPlaces = [];
-
-	initialPlaces.forEach( function(placeObj) {
-		self.places.push(new Place(placeObj));
-	});
-
-	self.places().forEach( function(place) {
-		if (place.name.indexOf(self.userInput()) < 0) {
-			place.marker.setVisible(false); // doesn't work. idea is to hide markers that are not according to filter
-		}
-	});
-
-	// self.searchFilter = ko.pureComputed(function() {
-	// 	initialPlaces.forEach( function(placeObj, i) {
-	// 		if (placeObj.name.indexOf(self.userInput()) >= 0) {
-	// 			testPlaces.push(placeObj.name);
-	// 		}
-	// 	});
-	// 	return testPlaces;
-	// }, this);
 };
 
 ko.applyBindings(new ViewModel());
