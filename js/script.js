@@ -1,4 +1,4 @@
-var initialPlaces = [
+var places = [
 	{
 		lat: 52.535372,
 		longt: 13.425483,
@@ -16,16 +16,6 @@ var initialPlaces = [
 	}
 ];
 
-function Place(placeObj) {
-	var marker = new google.maps.Marker({
-		position: new google.maps.LatLng(placeObj.lat, placeObj.longt),
-		title: placeObj.name,
-		map: map,
-		draggable: true,
-		animation: google.maps.Animation.DROP
-	});
-}
-
 var mapProp = {
 	center: new google.maps.LatLng(52.531283, 13.422102),
 	zoom: 15,
@@ -34,10 +24,25 @@ var mapProp = {
 
 var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
 
+var applyMarkers = function (markersArray) {
+	for (var i = 0; i < places.length; i++) {
+		markersArray.push(new google.maps.Marker ({
+			position: new google.maps.LatLng(places[i].lat, places[i].longt),
+			map: map,
+			title: places[i].name
+		}));
+	}
+}
+
 var ViewModel = function () {
 	var self = this;
 
 	self.userInput = ko.observable("");
+	self.markers = ko.observableArray([]);
+
+	applyMarkers(self.markers());
+
+	self.markers()[2].setVisible(false);	
 };
 
 ko.applyBindings(new ViewModel());
