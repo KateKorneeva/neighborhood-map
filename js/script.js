@@ -25,6 +25,7 @@ var mapProp = {
 var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
 
 var applyMarkers = function (markersArray) {
+	console.log("applyMarkers is fired");
 	for (var i = 0; i < places.length; i++) {
 		markersArray.push(new google.maps.Marker ({
 			position: new google.maps.LatLng(places[i].lat, places[i].longt),
@@ -34,6 +35,15 @@ var applyMarkers = function (markersArray) {
 	}
 }
 
+// var filterMarkers = function (markersArray, searchInput) {
+// 	for (var i = 0; i < markersArray.length; i++) {
+// 		if (places[i].name.indexOf(searchInput) < 0) {
+// 			markersArray[i].setVisible(false);
+// 			console.log(markersArray[i]);
+// 		}
+// 	};
+// }
+
 var ViewModel = function () {
 	var self = this;
 
@@ -41,8 +51,18 @@ var ViewModel = function () {
 	self.markers = ko.observableArray([]);
 
 	applyMarkers(self.markers());
+	// filterMarkers(self.markers(), self.userInput());
 
-	self.markers()[2].setVisible(false);	
+	self.filterMarkers = function (markersArray, searchInput) {
+		for (var i = 0; i < markersArray.length; i++) {
+			if (places[i].name.indexOf(searchInput) < 0) {
+				markersArray[i].setVisible(false);
+				console.log(markersArray[i]);
+			}
+		};
+	}
+
+	// self.markers()[2].setVisible(false);	
 };
 
 ko.applyBindings(new ViewModel());
