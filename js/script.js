@@ -25,7 +25,6 @@ var mapProp = {
 var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
 
 var applyMarkers = function (markersArray) {
-	console.log("applyMarkers is fired");
 	for (var i = 0; i < places.length; i++) {
 		markersArray.push(new google.maps.Marker ({
 			position: new google.maps.LatLng(places[i].lat, places[i].longt),
@@ -35,34 +34,27 @@ var applyMarkers = function (markersArray) {
 	}
 }
 
-// var filterMarkers = function (markersArray, searchInput) {
-// 	for (var i = 0; i < markersArray.length; i++) {
-// 		if (places[i].name.indexOf(searchInput) < 0) {
-// 			markersArray[i].setVisible(false);
-// 			console.log(markersArray[i]);
-// 		}
-// 	};
-// }
-
 var ViewModel = function () {
 	var self = this;
 
-	self.userInput = ko.observable("");
+	self.userInput = ko.observable();
+	console.log(self.userInput());
 	self.markers = ko.observableArray([]);
 
 	applyMarkers(self.markers());
-	// filterMarkers(self.markers(), self.userInput());
 
-	self.filterMarkers = function (markersArray, searchInput) {
-		for (var i = 0; i < markersArray.length; i++) {
-			if (places[i].name.indexOf(searchInput) < 0) {
-				markersArray[i].setVisible(false);
-				console.log(markersArray[i]);
+	self.filterMarkers = function () {
+		for (var i = 0; i < self.markers().length; i++) {
+			var name = places[i].name.toLowerCase();
+			if (name.indexOf(self.userInput()) >= 0) {
+				self.markers()[i].setVisible(true);
 			}
-		};
+			else {
+				self.markers()[i].setVisible(false);
+			}
+		}
+		return true;
 	}
-
-	// self.markers()[2].setVisible(false);	
 };
 
 ko.applyBindings(new ViewModel());
