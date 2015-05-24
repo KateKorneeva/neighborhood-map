@@ -27,16 +27,7 @@ var mapProp = {
 
 var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
 
-var applyMarkers = function (markersArray) {
-	for (var i = 0; i < places.length; i++) {
-		markersArray.push(new google.maps.Marker ({
-			position: new google.maps.LatLng(places[i].lat, places[i].longt),
-			map: map,
-			title: places[i].name,
-			visible: true //how to make it observable???
-		}));
-	}
-}
+
 
 var ViewModel = function () {
 	var self = this;
@@ -45,7 +36,17 @@ var ViewModel = function () {
 	self.markers = ko.observableArray([]);
 	self.isVisible = ko.observable(true);
 
-	applyMarkers(self.markers());
+	self.applyMarkers = function () {
+		for (var i = 0; i < places.length; i++) {
+			self.markers.push(new google.maps.Marker ({
+				position: new google.maps.LatLng(places[i].lat, places[i].longt),
+				map: map,
+				title: places[i].name,
+				visible: true,
+				koVisible: ko.observable(true)
+			}));
+		}
+	}
 
 	self.filterMarkers = function () {
 
@@ -53,23 +54,26 @@ var ViewModel = function () {
 			var name = places[i].name.toLowerCase();
 
 			if (name.indexOf(self.userInput()) >= 0) {
-				self.markers()[i].setVisible(true);
-				self.isVisible(true);
+				self.setPlaceVisible(self.markers()[i], true);
 			}
 			else {
-				self.markers()[i].setVisible(false);
-				self.isVisible(false);
+				self.setPlaceVisible(self.markers()[i], false);
 			}
-
-			console.log(self.markers()[i].visible);
 		}
 		return true;
 	}
 
-	self.test = function() {
-		console.log(self.markers()[1].visible);
-		console.log(self.markers()[1].visible());
+	self.setPlaceVisible = function (place, value) {
+		place.setVisible(value);
+		place.koVisible(value);
 	}
+
+	self.test = function() {
+		console.log(self.markers()[1].koVisible());
+	}
+
+	self.applyMarkers(self.markers());
+
 };
 
 ko.applyBindings(new ViewModel());
