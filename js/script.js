@@ -2,17 +2,20 @@ var places = [
 	{
 		lat: 52.535372,
 		longt: 13.425483,
-		name: 'Cafe'
+		name: 'Cafe',
+		visible: true
 	},
 	{
 		lat: 52.534217,
 		longt: 13.422328,
-		name: 'Supermarkt'
+		name: 'Supermarkt',
+		visible: true
 	},
 	{
 		lat: 52.533258,
 		longt: 13.437248,
-		name: 'Shop'
+		name: 'Shop',
+		visible: true
 	}
 ];
 
@@ -30,7 +33,7 @@ var applyMarkers = function (markersArray) {
 			position: new google.maps.LatLng(places[i].lat, places[i].longt),
 			map: map,
 			title: places[i].name,
-			visible: true
+			visible: true //how to make it observable???
 		}));
 	}
 }
@@ -40,6 +43,7 @@ var ViewModel = function () {
 
 	self.userInput = ko.observable();
 	self.markers = ko.observableArray([]);
+	self.isVisible = ko.observable(true);
 
 	applyMarkers(self.markers());
 
@@ -50,16 +54,21 @@ var ViewModel = function () {
 
 			if (name.indexOf(self.userInput()) >= 0) {
 				self.markers()[i].setVisible(true);
+				self.isVisible(true);
 			}
 			else {
 				self.markers()[i].setVisible(false);
+				self.isVisible(false);
 			}
+
+			console.log(self.markers()[i].visible);
 		}
 		return true;
 	}
 
 	self.test = function() {
-		console.log(self.markers()[1].name);
+		console.log(self.markers()[1].visible);
+		console.log(self.markers()[1].visible());
 	}
 };
 
