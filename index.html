@@ -7,7 +7,10 @@
 	</head>
 	<body>
 		<input type="text" data-bind="value: userInput, valueUpdate: 'input', event: {input: filterMarkers}" />
-		<div id="googleMap" class="map"></div>
+		<ul data-bind="foreach: markers">
+			<li><span data-bind="text: title"></span></li>
+		</ul>
+		<div id="googleMap" class="map" data-bind="click: test"></div>
 		
 		<script type="text/javascript" src="js/lib/knockout-3.3.0.js"></script>
 		<script src="https://maps.googleapis.com/maps/api/js"></script>

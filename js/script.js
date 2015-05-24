@@ -29,7 +29,8 @@ var applyMarkers = function (markersArray) {
 		markersArray.push(new google.maps.Marker ({
 			position: new google.maps.LatLng(places[i].lat, places[i].longt),
 			map: map,
-			title: places[i].name
+			title: places[i].name,
+			visible: true
 		}));
 	}
 }
@@ -38,14 +39,15 @@ var ViewModel = function () {
 	var self = this;
 
 	self.userInput = ko.observable();
-	console.log(self.userInput());
 	self.markers = ko.observableArray([]);
 
 	applyMarkers(self.markers());
 
 	self.filterMarkers = function () {
+
 		for (var i = 0; i < self.markers().length; i++) {
 			var name = places[i].name.toLowerCase();
+
 			if (name.indexOf(self.userInput()) >= 0) {
 				self.markers()[i].setVisible(true);
 			}
@@ -54,6 +56,10 @@ var ViewModel = function () {
 			}
 		}
 		return true;
+	}
+
+	self.test = function() {
+		console.log(self.markers()[1].name);
 	}
 };
 
