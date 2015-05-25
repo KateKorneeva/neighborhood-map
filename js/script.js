@@ -1,23 +1,65 @@
-var places = [
-	{
-		lat: 52.535372,
-		longt: 13.425483,
-		name: 'Cafe',
-		visible: true
-	},
-	{
-		lat: 52.534217,
-		longt: 13.422328,
-		name: 'Supermarkt',
-		visible: true
-	},
-	{
-		lat: 52.533258,
-		longt: 13.437248,
-		name: 'Shop',
-		visible: true
-	}
-];
+var places = {
+	cafes: [
+		{
+			lat: 52.529648,
+			longt: 13.434989,
+			name: 'Cafe 1',
+			visible: true
+		},
+		{
+			lat: 52.530875,
+			longt: 13.403017,
+			name: 'Cafe 2',
+			visible: true
+		},
+		{
+			lat: 52.535259,
+			longt: 13.437249,
+			name: 'Cafe 3',
+			visible: true
+		}
+	],
+	shops: [
+		{
+			lat: 52.537371,
+			longt: 13.420482,
+			name: 'Shop 1',
+			visible: true
+		},
+		{
+			lat: 52.526216,
+			longt: 13.418327,
+			name: 'Shop 2',
+			visible: true
+		},
+		{
+			lat: 52.533257,
+			longt: 13.415247,
+			name: 'Shop 3',
+			visible: true
+		}
+	],
+	misc: [
+		{
+			lat: 52.535369,
+			longt: 13.425480,
+			name: 'Bar',
+			visible: true
+		},
+		{
+			lat: 52.534214,
+			longt: 13.422325,
+			name: 'Library',
+			visible: true
+		},
+		{
+			lat: 52.533255,
+			longt: 13.437255,
+			name: 'Chirch',
+			visible: true
+		}
+	]
+};
 
 var mapProp = {
 	center: new google.maps.LatLng(52.531283, 13.422102),
@@ -36,12 +78,12 @@ var ViewModel = function () {
 	self.markers = ko.observableArray([]);
 	self.isVisible = ko.observable(true);
 
-	self.applyMarkers = function () {
-		for (var i = 0; i < places.length; i++) {
+	self.applyMarkers = function (placesArray) {
+		for (var i = 0; i < placesArray.length; i++) {
 			self.markers.push(new google.maps.Marker ({
-				position: new google.maps.LatLng(places[i].lat, places[i].longt),
+				position: new google.maps.LatLng(placesArray[i].lat, placesArray[i].longt),
 				map: map,
-				title: places[i].name,
+				title: placesArray[i].name,
 				visible: true,
 				koVisible: ko.observable(true)
 			}));
@@ -51,7 +93,7 @@ var ViewModel = function () {
 	self.filterMarkers = function () {
 
 		for (var i = 0; i < self.markers().length; i++) {
-			var name = places[i].name.toLowerCase();
+			var name = self.markers()[i].title.toLowerCase();
 
 			if (name.indexOf(self.userInput()) >= 0) {
 				self.setPlaceVisible(self.markers()[i], true);
@@ -63,6 +105,12 @@ var ViewModel = function () {
 		return true;
 	}
 
+	self.filterMarkersByType = function (type) {
+		console.log('lalala' + type); //replace this by something that will filter only shops or cafes
+	}
+
+	// This function updates two properties of marker at the same time.
+	// It is necessary because visible property of google marker can not be made an observable
 	self.setPlaceVisible = function (place, value) {
 		place.setVisible(value);
 		place.koVisible(value);
@@ -72,7 +120,9 @@ var ViewModel = function () {
 		console.log(self.markers()[1].koVisible());
 	}
 
-	self.applyMarkers(self.markers());
+	self.applyMarkers(places.cafes);
+	self.applyMarkers(places.shops);
+	self.applyMarkers(places.misc);
 
 };
 

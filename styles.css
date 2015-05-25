@@ -10,3 +10,10 @@ body {
 	width:100%;
 	height:100%;
 }
+
+.filtered-list {
+	position: absolute;
+	z-index: 10;
+	background-color: #ccc;
+	list-style: none;
+}
