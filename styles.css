@@ -9,11 +9,23 @@ body {
 .map {
 	width:100%;
 	height:100%;
+	position: absolute;
+	z-index: -1;
 }
 
 .filtered-list {
 	position: absolute;
-	z-index: 10;
 	background-color: #ccc;
 	list-style: none;
+	cursor: pointer;
 }
+
+/*.search-field {
+	position: absolute;
+	margin: 5px;
+}
+
+.filter-buttons {
+	position: absolute;
+	margin: 5px;
+}*/

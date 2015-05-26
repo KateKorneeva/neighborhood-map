@@ -6,15 +6,16 @@
 		<link rel="stylesheet" type="text/css" href="styles.css">
 	</head>
 	<body>
-		<input type="text" data-bind="value: userInput, valueUpdate: 'input', event: {input: filterMarkers}" />
-		<div>
-			<button data-bind="click: filterMarkersByType(' allplaces')">All places</button>
-			<button data-bind="click: filterMarkersByType(' Cafes')">Cafes</button>
-			<button data-bind="click: filterMarkersByType(' Shops')">Shops</button>
+		<input class="search-field" type="text" data-bind="value: userInput, valueUpdate: 'input', event: {input: filterMarkers}" />
+		<div class="filter-buttons">
+			<button data-bind="click: filterMarkersByType('cafe')">Cafes</button>
+			<button data-bind="click: filterMarkersByType('shop')">Shops</button>
+			<button data-bind="click: filterMarkersByType('misc')">Misc</button>
+			<button data-bind="click: filterMarkersByType('')">All places</button>
 		</div>
 		<ul class="filtered-list" data-bind="foreach: markers">
 			<li data-bind="visible: koVisible">
-				<span data-bind="text: title"></span>
+				<span data-bind="text: title, click: $parent.test"></span>
 			</li>
 		</ul>
 

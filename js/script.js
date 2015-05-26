@@ -1,65 +1,68 @@
-var places = {
-	cafes: [
-		{
-			lat: 52.529648,
-			longt: 13.434989,
-			name: 'Cafe 1',
-			visible: true
-		},
-		{
-			lat: 52.530875,
-			longt: 13.403017,
-			name: 'Cafe 2',
-			visible: true
-		},
-		{
-			lat: 52.535259,
-			longt: 13.437249,
-			name: 'Cafe 3',
-			visible: true
-		}
-	],
-	shops: [
-		{
-			lat: 52.537371,
-			longt: 13.420482,
-			name: 'Shop 1',
-			visible: true
-		},
-		{
-			lat: 52.526216,
-			longt: 13.418327,
-			name: 'Shop 2',
-			visible: true
-		},
-		{
-			lat: 52.533257,
-			longt: 13.415247,
-			name: 'Shop 3',
-			visible: true
-		}
-	],
-	misc: [
-		{
-			lat: 52.535369,
-			longt: 13.425480,
-			name: 'Bar',
-			visible: true
-		},
-		{
-			lat: 52.534214,
-			longt: 13.422325,
-			name: 'Library',
-			visible: true
-		},
-		{
-			lat: 52.533255,
-			longt: 13.437255,
-			name: 'Chirch',
-			visible: true
-		}
-	]
-};
+var places = [
+	{
+		lat: 52.529648,
+		longt: 13.434989,
+		name: 'Cafe 1',
+		visible: true,
+		placeType: 'cafe'
+	},
+	{
+		lat: 52.530875,
+		longt: 13.403017,
+		name: 'Cafe 2',
+		visible: true,
+		placeType: 'cafe'
+	},
+	{
+		lat: 52.535259,
+		longt: 13.437249,
+		name: 'Cafe 3',
+		visible: true,
+		placeType: 'cafe'
+	},
+	{
+		lat: 52.537371,
+		longt: 13.420482,
+		name: 'Shop 1',
+		visible: true,
+		placeType: 'shop'
+	},
+	{
+		lat: 52.526216,
+		longt: 13.418327,
+		name: 'Shop 2',
+		visible: true,
+		placeType: 'shop'
+	},
+	{
+		lat: 52.533257,
+		longt: 13.415247,
+		name: 'Shop 3',
+		visible: true,
+		placeType: 'shop'
+	},
+	{
+		lat: 52.535369,
+		longt: 13.425480,
+		name: 'Bar',
+		visible: true,
+		placeType: 'misc'
+	},
+	{
+		lat: 52.534214,
+		longt: 13.422325,
+		name: 'Library',
+		visible: true,
+		placeType: 'misc'
+	},
+	{
+		lat: 52.533255,
+		longt: 13.437255,
+		name: 'Chirch',
+		visible: true,
+		placeType: 'misc'
+	}
+];
 
 var mapProp = {
 	center: new google.maps.LatLng(52.531283, 13.422102),
@@ -78,14 +81,15 @@ var ViewModel = function () {
 	self.markers = ko.observableArray([]);
 	self.isVisible = ko.observable(true);
 
-	self.applyMarkers = function (placesArray) {
-		for (var i = 0; i < placesArray.length; i++) {
+	self.applyMarkers = function () {
+		for (var i = 0; i < places.length; i++) {
 			self.markers.push(new google.maps.Marker ({
-				position: new google.maps.LatLng(placesArray[i].lat, placesArray[i].longt),
+				position: new google.maps.LatLng(places[i].lat, places[i].longt),
 				map: map,
-				title: placesArray[i].name,
+				title: places[i].name,
 				visible: true,
-				koVisible: ko.observable(true)
+				koVisible: ko.observable(true),
+				placeType: places[i].placeType
 			}));
 		}
 	}
@@ -106,7 +110,16 @@ var ViewModel = function () {
 	}
 
 	self.filterMarkersByType = function (type) {
-		console.log('lalala' + type); //replace this by something that will filter only shops or cafes
+		for (var i = 0; i < self.markers().length; i++) {
+			var placeType = self.markers()[i].placeType.toLowerCase();
+
+			if (placeType.indexOf(type) >= 0) {
+				self.setPlaceVisible(self.markers()[i], true);
+			}
+			else {
+				self.setPlaceVisible(self.markers()[i], false);
+			}
+		}
 	}
 
 	// This function updates two properties of marker at the same time.
@@ -117,13 +130,10 @@ var ViewModel = function () {
 	}
 
 	self.test = function() {
-		console.log(self.markers()[1].koVisible());
+		console.log('test!!!');
 	}
 
-	self.applyMarkers(places.cafes);
-	self.applyMarkers(places.shops);
-	self.applyMarkers(places.misc);
-
+	self.applyMarkers();
 };
 
 ko.applyBindings(new ViewModel());
