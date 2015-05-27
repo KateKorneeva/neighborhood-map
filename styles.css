@@ -20,12 +20,19 @@ body {
 	cursor: pointer;
 }
 
-/*.search-field {
-	position: absolute;
+.filter-buttons {
 	margin: 5px;
 }
 
-.filter-buttons {
-	position: absolute;
+.filter-buttons * {
+	border: none;
+	background-color: #3D9970;
+	color: #153;
+	padding: 10px;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.search-field {
 	margin: 5px;
-}*/
+}

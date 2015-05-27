@@ -4,63 +4,72 @@ var places = [
 		longt: 13.434989,
 		name: 'Cafe 1',
 		visible: true,
-		placeType: 'cafe'
+		placeType: 'cafe',
+		infoContent: 'content replacement'
 	},
 	{
 		lat: 52.530875,
 		longt: 13.403017,
 		name: 'Cafe 2',
 		visible: true,
-		placeType: 'cafe'
+		placeType: 'cafe',
+		infoContent: 'content replacement'
 	},
 	{
 		lat: 52.535259,
 		longt: 13.437249,
 		name: 'Cafe 3',
 		visible: true,
-		placeType: 'cafe'
+		placeType: 'cafe',
+		infoContent: 'content replacement'
 	},
 	{
 		lat: 52.537371,
 		longt: 13.420482,
 		name: 'Shop 1',
 		visible: true,
-		placeType: 'shop'
+		placeType: 'shop',
+		infoContent: 'content replacement'
 	},
 	{
 		lat: 52.526216,
 		longt: 13.418327,
 		name: 'Shop 2',
 		visible: true,
-		placeType: 'shop'
+		placeType: 'shop',
+		infoContent: 'content replacement'
 	},
 	{
 		lat: 52.533257,
 		longt: 13.415247,
 		name: 'Shop 3',
 		visible: true,
-		placeType: 'shop'
+		placeType: 'shop',
+		infoContent: 'content replacement'
 	},
 	{
 		lat: 52.535369,
 		longt: 13.425480,
 		name: 'Bar',
 		visible: true,
-		placeType: 'misc'
+		placeType: 'misc',
+		infoContent: 'content replacement'
 	},
 	{
 		lat: 52.534214,
 		longt: 13.422325,
 		name: 'Library',
 		visible: true,
-		placeType: 'misc'
+		placeType: 'misc',
+		infoContent: 'content replacement'
 	},
 	{
 		lat: 52.533255,
 		longt: 13.437255,
 		name: 'Chirch',
 		visible: true,
-		placeType: 'misc'
+		placeType: 'misc',
+		infoContent: 'content replacement'
 	}
 ];
 
@@ -79,6 +88,7 @@ var ViewModel = function () {
 
 	self.userInput = ko.observable();
 	self.markers = ko.observableArray([]);
+	self.infoWindows = ko.observableArray([]);
 	self.isVisible = ko.observable(true);
 
 	self.applyMarkers = function () {
@@ -89,13 +99,13 @@ var ViewModel = function () {
 				title: places[i].name,
 				visible: true,
 				koVisible: ko.observable(true),
-				placeType: places[i].placeType
+				placeType: places[i].placeType,
+				infoWindow: new google.maps.InfoWindow({content: places[i].infoContent})
 			}));
 		}
 	}
 
 	self.filterMarkers = function () {
-
 		for (var i = 0; i < self.markers().length; i++) {
 			var name = self.markers()[i].title.toLowerCase();
 
@@ -120,6 +130,10 @@ var ViewModel = function () {
 				self.setPlaceVisible(self.markers()[i], false);
 			}
 		}
+	}
+
+	self.openInfoWindow = function (marker) {
+		marker.infoWindow.open(map, marker);
 	}
 
 	// This function updates two properties of marker at the same time.
