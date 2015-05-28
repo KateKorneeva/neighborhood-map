@@ -85,8 +85,8 @@ function initialize() {
 
 
 	google.maps.event.addListener(map, 'click', function() {
-	 	// self.markers()[1].infoWindow.open(map,self.markers()[1]);
-	 	console.log('la');
+		// self.markers()[1].infoWindow.open(map,self.markers()[1]);
+		console.log('la');
 	});
 
 	var ViewModel = function () {
@@ -161,6 +161,37 @@ function initialize() {
 		self.test = function () {
 			console.log('test!!!');
 		}
+
+		// var CLIENT_ID = '4CPJVSPROXAN332ZFSRUGBVMW4LFWYOYMVTDEFQ2NOFUU42O';
+		// var CLIENT_SECRET = 'KSXNQ4KXF4SLJIQQ0UWMJR4ZWIXWGQ4CL4VW1D2IR1BC0XKV';
+
+		// // https://developer.foursquare.com/start/search
+		// var API_ENDPOINT = 'https://api.foursquare.com/v2/venues/search' +
+		// 	'?client_id=CLIENT_ID' +
+		// 	'&client_secret=CLIENT_SECRET' +
+		// 	'&v=20130815' +
+		// 	'&ll=LATLON' +
+		// 	'&query=coffee' +
+		// 	'&callback=?';
+
+		// function success(result, status) {
+
+		// 	if (status !== 'success') return alert('Request to Foursquare failed, haha');
+
+		// 	// Transform each venue result into a marker on the map.
+		// 	for (var i = 0; i < result.response.venues.length; i++) {
+		// 		var venue = result.response.venues[i];
+		// 		var latlng = latLng(venue.location.lat, venue.location.lng);
+		// 		var marker = marker();
+		// 		.bindPopup('<strong><a href="https://foursquare.com/v/' + venue.id + '">' +
+		// 			venue.name + '</a></strong>')
+		// 				.addTo(foursquarePlaces);
+		// 	}
+		// }
+
+		// var scr = document.createElement('script');
+		// scr.src = ".replace('CLIENT_ID', CLIENT_ID) .replace('CLIENT_SECRET', CLIENT_SECRET) .replace('LATLON', map.getCenter().lat + ',' + map.getCenter().lng)";
+		// document.body.appendChild(scr);
 
 		self.applyMarkers();
 	};
