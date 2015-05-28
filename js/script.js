@@ -73,81 +73,99 @@ var places = [
 	}
 ];
 
-var mapProp = {
-	center: new google.maps.LatLng(52.531283, 13.422102),
-	zoom: 15,
-	mapTypeId: google.maps.MapTypeId.ROADMAP
-};
+function initialize() {
 
-var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+	var mapProp = {
+		center: new google.maps.LatLng(52.531283, 13.422102),
+		zoom: 15,
+		mapTypeId: google.maps.MapTypeId.ROADMAP
+	};
+
+	var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
 
 
+	google.maps.event.addListener(map, 'click', function() {
+	 	// self.markers()[1].infoWindow.open(map,self.markers()[1]);
+	 	console.log('la');
+	});
 
-var ViewModel = function () {
-	var self = this;
+	var ViewModel = function () {
+		var self = this;
 
-	self.userInput = ko.observable();
-	self.markers = ko.observableArray([]);
-	self.infoWindows = ko.observableArray([]);
-	self.isVisible = ko.observable(true);
+		self.userInput = ko.observable();
+		self.markers = ko.observableArray([]);
+		self.infoWindows = ko.observableArray([]);
+		self.isVisible = ko.observable(true);
 
-	self.applyMarkers = function () {
-		for (var i = 0; i < places.length; i++) {
-			self.markers.push(new google.maps.Marker ({
-				position: new google.maps.LatLng(places[i].lat, places[i].longt),
-				map: map,
-				title: places[i].name,
-				visible: true,
-				koVisible: ko.observable(true),
-				placeType: places[i].placeType,
-				infoWindow: new google.maps.InfoWindow({content: places[i].infoContent})
-			}));
-		}
-	}
+		self.applyMarkers = function () {
+			for (var i = 0; i < places.length; i++) {
+				var marker = new google.maps.Marker ({
+					position: new google.maps.LatLng(places[i].lat, places[i].longt),
+					map: map,
+					title: places[i].name,
+					visible: true,
+					koVisible: ko.observable(true),
+					placeType: places[i].placeType,
+					infoWindow: new google.maps.InfoWindow({content: places[i].infoContent})
+				});
+				self.markers.push(marker);
 
-	self.filterMarkers = function () {
-		for (var i = 0; i < self.markers().length; i++) {
-			var name = self.markers()[i].title.toLowerCase();
-
-			if (name.indexOf(self.userInput()) >= 0) {
-				self.setPlaceVisible(self.markers()[i], true);
-			}
-			else {
-				self.setPlaceVisible(self.markers()[i], false);
-			}
-		}
-		return true;
-	}
-
-	self.filterMarkersByType = function (type) {
-		for (var i = 0; i < self.markers().length; i++) {
-			var placeType = self.markers()[i].placeType.toLowerCase();
-
-			if (placeType.indexOf(type) >= 0) {
-				self.setPlaceVisible(self.markers()[i], true);
-			}
-			else {
-				self.setPlaceVisible(self.markers()[i], false);
+				google.maps.event.addListener(marker, 'click', (function(markerCopy) {
+					return function () {
+						markerCopy.infoWindow.open(map,markerCopy);
+						console.log('ffff');
+					};
+				})(marker));
 			}
 		}
-	}
 
-	self.openInfoWindow = function (marker) {
-		marker.infoWindow.open(map, marker);
-	}
+		self.filterMarkers = function () {
+			for (var i = 0; i < self.markers().length; i++) {
+				var name = self.markers()[i].title.toLowerCase();
 
-	// This function updates two properties of marker at the same time.
-	// It is necessary because visible property of google marker can not be made an observable
-	self.setPlaceVisible = function (place, value) {
-		place.setVisible(value);
-		place.koVisible(value);
-	}
+				if (name.indexOf(self.userInput()) >= 0) {
+					self.setPlaceVisible(self.markers()[i], true);
+				}
+				else {
+					self.setPlaceVisible(self.markers()[i], false);
+				}
+			}
+			return true;
+		}
 
-	self.test = function() {
-		console.log('test!!!');
-	}
+		self.filterMarkersByType = function (type) {
+			for (var i = 0; i < self.markers().length; i++) {
+				var placeType = self.markers()[i].placeType.toLowerCase();
 
-	self.applyMarkers();
-};
+				if (placeType.indexOf(type) >= 0) {
+					self.setPlaceVisible(self.markers()[i], true);
+				}
+				else {
+					self.setPlaceVisible(self.markers()[i], false);
+				}
+			}
+		}
 
-ko.applyBindings(new ViewModel());
+		self.openInfoWindow = function (marker) {
+			marker.infoWindow.open(map, marker);
+		}
+
+
+		// This function updates two properties of marker at the same time.
+		// It is necessary because visible property of google marker can not be made an observable
+		self.setPlaceVisible = function (place, value) {
+			place.setVisible(value);
+			place.koVisible(value);
+		}
+
+		self.test = function () {
+			console.log('test!!!');
+		}
+
+		self.applyMarkers();
+	};
+
+	ko.applyBindings(new ViewModel());
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
