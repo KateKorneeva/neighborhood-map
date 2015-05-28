@@ -90,6 +90,7 @@ function initialize() {
 	});
 
 	var ViewModel = function () {
+
 		var self = this;
 
 		self.userInput = ko.observable();
@@ -97,16 +98,17 @@ function initialize() {
 		self.infoWindows = ko.observableArray([]);
 		self.isVisible = ko.observable(true);
 
-		self.applyMarkers = function () {
-			for (var i = 0; i < places.length; i++) {
+		self.applyMarkers = function (foursqPlaces) {
+			for (var i = 0; i < foursqPlaces.length; i++) {
+				var foursqPlace = foursqPlaces[i];
 				var marker = new google.maps.Marker ({
-					position: new google.maps.LatLng(places[i].lat, places[i].longt),
+					position: new google.maps.LatLng(foursqPlaces[i].location.lat, foursqPlaces[i].location.lng),
 					map: map,
-					title: places[i].name,
+					title: foursqPlaces[i].name,
 					visible: true,
 					koVisible: ko.observable(true),
-					placeType: places[i].placeType,
-					infoWindow: new google.maps.InfoWindow({content: places[i].infoContent})
+					placeType: foursqPlaces[i].categories.name,
+					infoWindow: new google.maps.InfoWindow({content: foursqPlaces[i].location.formattedAddress})
 				});
 				self.markers.push(marker);
 
@@ -118,6 +120,30 @@ function initialize() {
 				})(marker));
 			}
 		}
+
+		function success(result, status) {
+
+			if (status !== 'success') return alert('Request to Foursquare failed, haha');
+
+			// Transform each venue result into a marker on the map.
+			self.applyMarkers(result.response.venues);
+		}
+
+		// Need to correct following part. It should put into string the data that is in API_ENDPOINT var
+		// var scr = document.createElement('script');
+
+		// var CLIENT_ID = '4CPJVSPROXAN332ZFSRUGBVMW4LFWYOYMVTDEFQ2NOFUU42O';
+		// var CLIENT_SECRET = 'KSXNQ4KXF4SLJIQQ0UWMJR4ZWIXWGQ4CL4VW1D2IR1BC0XKV';
+		// var API_ENDPOINT = 'https://api.foursquare.com/v2/venues/search' +
+		// 	'?client_id=CLIENT_ID' +
+		// 	'&client_secret=CLIENT_SECRET' +
+		// 	'&v=20130815' +
+		// 	'&ll=LATLON' +
+		// 	'&query=coffee' +
+		// 	'&callback=?';
+
+		// scr.src = ".replace('CLIENT_ID',CLIENT_ID) .replace('CLIENT_SECRET',CLIENT_SECRET) .replace('LATLON',map.getCenter().lat + ',' + map.getCenter().lng)";
+		// document.body.appendChild(scr);
 
 		self.filterMarkers = function () {
 			for (var i = 0; i < self.markers().length; i++) {
@@ -162,38 +188,7 @@ function initialize() {
 			console.log('test!!!');
 		}
 
-		// var CLIENT_ID = '4CPJVSPROXAN332ZFSRUGBVMW4LFWYOYMVTDEFQ2NOFUU42O';
-		// var CLIENT_SECRET = 'KSXNQ4KXF4SLJIQQ0UWMJR4ZWIXWGQ4CL4VW1D2IR1BC0XKV';
-
-		// // https://developer.foursquare.com/start/search
-		// var API_ENDPOINT = 'https://api.foursquare.com/v2/venues/search' +
-		// 	'?client_id=CLIENT_ID' +
-		// 	'&client_secret=CLIENT_SECRET' +
-		// 	'&v=20130815' +
-		// 	'&ll=LATLON' +
-		// 	'&query=coffee' +
-		// 	'&callback=?';
-
-		// function success(result, status) {
-
-		// 	if (status !== 'success') return alert('Request to Foursquare failed, haha');
-
-		// 	// Transform each venue result into a marker on the map.
-		// 	for (var i = 0; i < result.response.venues.length; i++) {
-		// 		var venue = result.response.venues[i];
-		// 		var latlng = latLng(venue.location.lat, venue.location.lng);
-		// 		var marker = marker();
-		// 		.bindPopup('<strong><a href="https://foursquare.com/v/' + venue.id + '">' +
-		// 			venue.name + '</a></strong>')
-		// 				.addTo(foursquarePlaces);
-		// 	}
-		// }
-
-		// var scr = document.createElement('script');
-		// scr.src = ".replace('CLIENT_ID', CLIENT_ID) .replace('CLIENT_SECRET', CLIENT_SECRET) .replace('LATLON', map.getCenter().lat + ',' + map.getCenter().lng)";
-		// document.body.appendChild(scr);
-
-		self.applyMarkers();
+		// self.applyMarkers();
 	};
 
 	ko.applyBindings(new ViewModel());
