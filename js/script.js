@@ -129,21 +129,12 @@ function initialize() {
 			self.applyMarkers(result.response.venues);
 		}
 
-		// Need to correct following part. It should put into string the data that is in API_ENDPOINT var
-		// var scr = document.createElement('script');
+		var script = document.createElement('script');
 
-		// var CLIENT_ID = '4CPJVSPROXAN332ZFSRUGBVMW4LFWYOYMVTDEFQ2NOFUU42O';
-		// var CLIENT_SECRET = 'KSXNQ4KXF4SLJIQQ0UWMJR4ZWIXWGQ4CL4VW1D2IR1BC0XKV';
-		// var API_ENDPOINT = 'https://api.foursquare.com/v2/venues/search' +
-		// 	'?client_id=CLIENT_ID' +
-		// 	'&client_secret=CLIENT_SECRET' +
-		// 	'&v=20130815' +
-		// 	'&ll=LATLON' +
-		// 	'&query=coffee' +
-		// 	'&callback=?';
+// script.src="https://api.foursquare.com/v2/venues/search?client_id=4CPJVSPROXAN332ZFSRUGBVMW4LFWYOYMVTDEFQ2NOFUU42O&client_secret=KSXNQ4KXF4SLJIQQ0UWMJR4ZWIXWGQ4CL4VW1D2IR1BC0XKV&ll=52.5,13.4&v=20130815"
+script.src="https://api.foursquare.com/v2/venues/search.jsonp?client_id=4CPJVSPROXAN332ZFSRUGBVMW4LFWYOYMVTDEFQ2NOFUU42O&client_secret=KSXNQ4KXF4SLJIQQ0UWMJR4ZWIXWGQ4CL4VW1D2IR1BC0XKV&v=20130815&ll=40.7,-74&query=sushi";
 
-		// scr.src = ".replace('CLIENT_ID',CLIENT_ID) .replace('CLIENT_SECRET',CLIENT_SECRET) .replace('LATLON',map.getCenter().lat + ',' + map.getCenter().lng)";
-		// document.body.appendChild(scr);
+		document.body.appendChild(script);
 
 		self.filterMarkers = function () {
 			for (var i = 0; i < self.markers().length; i++) {
