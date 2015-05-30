@@ -108,7 +108,7 @@ function initialize() {
 					visible: true,
 					koVisible: ko.observable(true),
 					placeType: foursqPlaces[i].categories.name,
-					infoWindow: new google.maps.InfoWindow({content: foursqPlaces[i].location.formattedAddress})
+					infoWindow: new google.maps.InfoWindow({content: foursqPlaces[i].name})
 				});
 				self.markers.push(marker);
 
@@ -121,20 +121,21 @@ function initialize() {
 			}
 		}
 
-		function success(result, status) {
+		var client_id = "4CPJVSPROXAN332ZFSRUGBVMW4LFWYOYMVTDEFQ2NOFUU42O";
+		var client_secret = "KSXNQ4KXF4SLJIQQ0UWMJR4ZWIXWGQ4CL4VW1D2IR1BC0XKV";
+		var location = "52.531283, 13.422102";
+		var dateAndTime = "20150515";
+		var url ="https://api.foursquare.com/v2/venues/search?ll="+location+
+			"&client_id="+client_id+
+			"&client_secret="+client_secret+
+			"&v="+dateAndTime+
+			"&query=sushi";
 
+		$.getJSON( url, function(result, status) {
 			if (status !== 'success') return alert('Request to Foursquare failed, haha');
-
 			// Transform each venue result into a marker on the map.
 			self.applyMarkers(result.response.venues);
-		}
-
-		var script = document.createElement('script');
-
-// script.src="https://api.foursquare.com/v2/venues/search?client_id=4CPJVSPROXAN332ZFSRUGBVMW4LFWYOYMVTDEFQ2NOFUU42O&client_secret=KSXNQ4KXF4SLJIQQ0UWMJR4ZWIXWGQ4CL4VW1D2IR1BC0XKV&ll=52.5,13.4&v=20130815"
-script.src="https://api.foursquare.com/v2/venues/search.jsonp?client_id=4CPJVSPROXAN332ZFSRUGBVMW4LFWYOYMVTDEFQ2NOFUU42O&client_secret=KSXNQ4KXF4SLJIQQ0UWMJR4ZWIXWGQ4CL4VW1D2IR1BC0XKV&v=20130815&ll=40.7,-74&query=sushi";
-
-		document.body.appendChild(script);
+		});
 
 		self.filterMarkers = function () {
 			for (var i = 0; i < self.markers().length; i++) {
