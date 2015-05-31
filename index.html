@@ -7,11 +7,9 @@
 	</head>
 	<body>
 		<input class="search-field" type="text" data-bind="value: userInput, valueUpdate: 'input', event: {input: filterMarkers}" />
-		<div class="filter-buttons">
-			<button data-bind="click: filterMarkersByType('cafe')">Cafes</button>
-			<button data-bind="click: filterMarkersByType('shop')">Shops</button>
-			<button data-bind="click: filterMarkersByType('misc')">Misc</button>
-			<button data-bind="click: filterMarkersByType('')">All places</button>
+		<div class="filter-buttons" data-bind="foreach: placeTypes()">
+			<button data-bind="text: $index"></button>
+			<!-- <button data-bind="click: $parent.filterMarkersByType('')">All places</button> -->
 		</div>
 		<ul class="filtered-list" data-bind="foreach: markers">
 			<li data-bind="visible: koVisible">
