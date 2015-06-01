@@ -83,9 +83,9 @@ function initialize() {
 		}
 
 		self.filterMarkersByType = function (type) {
-			for (var i = 0; i < self.placeTypes().length; i++) {
-				// var placeType = self.placeTypes()[i].toLowerCase();
-				console.log(self.placeTypes()[i]);
+			for (var i = 0; i < self.markers().length; i++) {
+				var placeType = self.markers()[i].placeType;
+				// var placeType = self.markers()[i].placeType.toLowerCase();
 
 				if (placeType.indexOf(type) >= 0) {
 					self.setPlaceVisible(self.markers()[i], true);
