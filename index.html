@@ -7,8 +7,8 @@
 	</head>
 	<body>
 		<input class="search-field" type="text" data-bind="value: userInput, valueUpdate: 'input', event: {input: filterMarkers}" />
-		<div class="filter-buttons" data-bind="foreach: placeTypes()">
-			<button data-bind="text: $index"></button>
+		<div class="filter-buttons">
+			<button data-bind="text: placeTypes()[1]"></button>
 			<!-- <button data-bind="click: $parent.filterMarkersByType('')">All places</button> -->
 		</div>
 		<ul class="filtered-list" data-bind="foreach: markers">

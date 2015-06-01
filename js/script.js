@@ -64,7 +64,7 @@ function initialize() {
 					self.placeTypes().push(foursqPlaceType);
 				}
 			}
-			console.log(self.placeTypes());
+			console.log(self.placeTypes()[0]);
 		}
 
 		self.filterMarkers = function () {
