@@ -14,7 +14,6 @@ function initialize() {
 
 		self.userInput = ko.observable();
 		self.markers = ko.observableArray([]);
-		self.placeTypes = ko.observableArray([]);
 		self.infoWindows = ko.observableArray([]);
 		self.isVisible = ko.observable(true);
 
@@ -54,18 +53,20 @@ function initialize() {
 				})(marker));
 			}
 
-			self.getPlaceTypes();
 		}
 
-		self.getPlaceTypes = function () {
-			for (var i = 0; i < self.markers().length; i++) {
-				var foursqPlaceType = self.markers()[i].placeType;
-				if (self.placeTypes().indexOf(foursqPlaceType) < 0) {
-					self.placeTypes().push(foursqPlaceType);
-				}
-			}
-			console.log(self.placeTypes()[0]);
-		}
+		// self.getPlaceTypes = function () {
+		// 	var initPlaceTypes = [];
+		// 	for (var i = 0; i < self.markers().length; i++) {
+		// 		var foursqPlaceType = self.markers()[i].placeType;
+		// 		if (initPlaceTypes.indexOf(foursqPlaceType) < 0) {
+		// 			initPlaceTypes.push(foursqPlaceType);
+		// 		}
+		// 	}
+		// 	console.log(initPlaceTypes);
+		// 	return initPlaceTypes;
+		// }
+		// self.placeTypes = ko.observableArray(self.getPlaceTypes());
 
 		self.filterMarkers = function () {
 			for (var i = 0; i < self.markers().length; i++) {
