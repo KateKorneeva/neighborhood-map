@@ -16,6 +16,9 @@ function initialize() {
 		self.markers = ko.observableArray([]);
 		self.infoWindows = ko.observableArray([]);
 		self.isVisible = ko.observable(true);
+		// self.types = ko.pureComputed(function() {
+		// 	return this.firstName() + " " + this.lastName();
+		// }, this);
 
 		var client_id = "4CPJVSPROXAN332ZFSRUGBVMW4LFWYOYMVTDEFQ2NOFUU42O";
 		var client_secret = "KSXNQ4KXF4SLJIQQ0UWMJR4ZWIXWGQ4CL4VW1D2IR1BC0XKV";
@@ -45,6 +48,7 @@ function initialize() {
 					infoWindow: new google.maps.InfoWindow({content: foursqPlace.name})
 				});
 				self.markers.push(marker);
+				// self.types()[i] = foursqPlace.categories[0].name;
 
 				google.maps.event.addListener(marker, 'click', (function(markerCopy) {
 					return function () {
@@ -52,7 +56,6 @@ function initialize() {
 					};
 				})(marker));
 			}
-
 		}
 
 		// self.getPlaceTypes = function () {

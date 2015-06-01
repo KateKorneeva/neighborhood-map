@@ -9,11 +9,16 @@
 		<input class="search-field" type="text" data-bind="value: userInput, valueUpdate: 'input', event: {input: filterMarkers}" />
 		<div class="filter-buttons" data-bind = "foreach: markers">
 			<button data-bind = "text: placeType, click: $parent.filterMarkersByType(placeType)"></button>
-			<!-- <button data-bind="click: $parent.filterMarkersByType('')">All places</button> -->
 		</div>
+
 		<div>
 			<button data-bind = "click: filterMarkersByType('')">All places</button>
 		</div>
+<!-- 
+		<div data-bind = "foreach: types">
+			<button data-bind = "text: $data, click: $parent.filterMarkersByType($data)"></button>
+		</div> -->
+		
 		<ul class="filtered-list" data-bind="foreach: markers">
 			<li data-bind="visible: koVisible">
 				<span data-bind="text: title, click: $parent.openInfoWindow"></span>
