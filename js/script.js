@@ -30,7 +30,7 @@ function initialize() {
 		self.sendFoursqResponses = function () {
 			for (var i = 0; i < self.sections().length; i++) {
 				var section = self.sections()[i];
-				var url = baseUrl + "&section=" + section;
+				var url = baseUrl + "&query=" + section;
 
 				$.getJSON( url, function(result) {
 					// if (status !== 'success') return alert('Request to Foursquare failed, haha');
@@ -44,7 +44,6 @@ function initialize() {
 		self.sendFoursqResponses();
 
 		self.applyMarkers = function (foursqPlaces, section) {
-			console.log(section);
 			for (var i = 0; i < foursqPlaces.length; i++) {
 				var foursqPlace = foursqPlaces[i].venue;
 				var marker = new google.maps.Marker ({
