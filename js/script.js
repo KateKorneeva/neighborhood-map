@@ -35,10 +35,7 @@ function initialize() {
 				var url = baseUrl + "&query=" + section;
 
 				$.getJSON( url, function(result) {
-					// if (status !== 'success') return alert('Request to Foursquare failed, haha');
-					// console.log(result.response.groups[0].items);
 					// Transform each venue result into a marker on the map.
-					// console.log(result.response.query);
 					self.applyMarkers(result.response.groups[0].items, result.response.query);
 				});
 			};
@@ -48,6 +45,7 @@ function initialize() {
 		self.applyMarkers = function (foursqPlaces, section) {
 			for (var i = 0; i < foursqPlaces.length; i++) {
 				var foursqPlace = foursqPlaces[i].venue;
+				var infoWContent = foursqPlace.name;
 				var marker = new google.maps.Marker ({
 					position: new google.maps.LatLng(foursqPlace.location.lat, foursqPlace.location.lng),
 					map: map,
@@ -55,14 +53,13 @@ function initialize() {
 					visible: true,
 					koVisible: ko.observable(true),
 					section: section,
-					infoWindow: new google.maps.InfoWindow({content: foursqPlace.name})
+					infoWindow: new google.maps.InfoWindow({content: infoWContent})
 				});
 				self.markers.push(marker);
 
 				google.maps.event.addListener(marker, 'click', (function(markerCopy) {
 					return function () {
 						self.openInfoWindow(markerCopy);
-						// markerCopy.infoWindow.open(map,markerCopy);
 					};
 				})(marker));
 			}
