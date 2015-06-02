@@ -18,6 +18,8 @@ function initialize() {
 		self.infoWindows = ko.observableArray([]);
 		self.isVisible = ko.observable(true);
 
+		var prevInfoWindow = false;
+
 		var client_id = "4CPJVSPROXAN332ZFSRUGBVMW4LFWYOYMVTDEFQ2NOFUU42O";
 		var client_secret = "KSXNQ4KXF4SLJIQQ0UWMJR4ZWIXWGQ4CL4VW1D2IR1BC0XKV";
 		var location = "52.531283, 13.422102";
@@ -59,7 +61,8 @@ function initialize() {
 
 				google.maps.event.addListener(marker, 'click', (function(markerCopy) {
 					return function () {
-						markerCopy.infoWindow.open(map,markerCopy);
+						self.openInfoWindow(markerCopy);
+						// markerCopy.infoWindow.open(map,markerCopy);
 					};
 				})(marker));
 			}
@@ -94,7 +97,11 @@ function initialize() {
 		}
 
 		self.openInfoWindow = function (marker) {
+			if (prevInfoWindow) {
+				prevInfoWindow.close();
+			}
 			marker.infoWindow.open(map, marker);
+			prevInfoWindow = marker.infoWindow;
 		}
 
 		// This function updates two properties of marker at the same time.
