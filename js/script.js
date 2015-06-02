@@ -14,41 +14,49 @@ function initialize() {
 
 		self.userInput = ko.observable();
 		self.markers = ko.observableArray([]);
+		self.sections = ko.observableArray(["food", "drinks", "coffee", "shops", "arts", "outdoors", "sights", "trending", "specials"]);
 		self.infoWindows = ko.observableArray([]);
 		self.isVisible = ko.observable(true);
-		// self.types = ko.pureComputed(function() {
-		// 	return this.firstName() + " " + this.lastName();
-		// }, this);
 
 		var client_id = "4CPJVSPROXAN332ZFSRUGBVMW4LFWYOYMVTDEFQ2NOFUU42O";
 		var client_secret = "KSXNQ4KXF4SLJIQQ0UWMJR4ZWIXWGQ4CL4VW1D2IR1BC0XKV";
 		var location = "52.531283, 13.422102";
-		var dateAndTime = "20150515";
-		var url ="https://api.foursquare.com/v2/venues/search?ll="+location+
+		var date = "20150602";
+		var baseUrl ="https://api.foursquare.com/v2/venues/explore?ll="+location+
 			"&client_id="+client_id+
 			"&client_secret="+client_secret+
-			"&v="+dateAndTime;
+			"&v="+date;
 
-		var getFousquare = $.getJSON( url, function(result, status) {
-			if (status !== 'success') return alert('Request to Foursquare failed, haha');
-			// Transform each venue result into a marker on the map.
-			self.applyMarkers(result.response.venues);
-		});
+		self.sendFoursqResponses = function () {
+			for (var i = 0; i < self.sections().length; i++) {
+				var section = self.sections()[i];
+				var url = baseUrl + "&section=" + section;
 
-		self.applyMarkers = function (foursqPlaces) {
+				$.getJSON( url, function(result) {
+					// if (status !== 'success') return alert('Request to Foursquare failed, haha');
+					// console.log(result.response.groups[0].items);
+					// Transform each venue result into a marker on the map.
+					// console.log(result.response.query);
+					self.applyMarkers(result.response.groups[0].items, result.response.query);
+				});
+			};
+		}
+		self.sendFoursqResponses();
+
+		self.applyMarkers = function (foursqPlaces, section) {
+			console.log(section);
 			for (var i = 0; i < foursqPlaces.length; i++) {
-				var foursqPlace = foursqPlaces[i];
+				var foursqPlace = foursqPlaces[i].venue;
 				var marker = new google.maps.Marker ({
 					position: new google.maps.LatLng(foursqPlace.location.lat, foursqPlace.location.lng),
 					map: map,
 					title: foursqPlace.name,
 					visible: true,
 					koVisible: ko.observable(true),
-					placeType: foursqPlace.categories[0].name,
+					section: section,
 					infoWindow: new google.maps.InfoWindow({content: foursqPlace.name})
 				});
 				self.markers.push(marker);
-				// self.types()[i] = foursqPlace.categories[0].name;
 
 				google.maps.event.addListener(marker, 'click', (function(markerCopy) {
 					return function () {
@@ -57,19 +65,6 @@ function initialize() {
 				})(marker));
 			}
 		}
-
-		// self.getPlaceTypes = function () {
-		// 	var initPlaceTypes = [];
-		// 	for (var i = 0; i < self.markers().length; i++) {
-		// 		var foursqPlaceType = self.markers()[i].placeType;
-		// 		if (initPlaceTypes.indexOf(foursqPlaceType) < 0) {
-		// 			initPlaceTypes.push(foursqPlaceType);
-		// 		}
-		// 	}
-		// 	console.log(initPlaceTypes);
-		// 	return initPlaceTypes;
-		// }
-		// self.placeTypes = ko.observableArray(self.getPlaceTypes());
 
 		self.filterMarkers = function () {
 			for (var i = 0; i < self.markers().length; i++) {
@@ -87,7 +82,7 @@ function initialize() {
 
 		self.filterMarkersByType = function (type) {
 			for (var i = 0; i < self.markers().length; i++) {
-				var placeType = self.markers()[i].placeType;
+				var placeType = self.markers()[i].section;
 				// var placeType = self.markers()[i].placeType.toLowerCase();
 
 				if (placeType.indexOf(type) >= 0) {

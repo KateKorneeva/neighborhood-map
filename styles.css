@@ -23,6 +23,7 @@ body {
 
 .filter-buttons {
 	margin: 5px;
+	display: inline-block;
 }
 
 .filter-buttons * {
