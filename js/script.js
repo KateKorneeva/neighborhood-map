@@ -1,7 +1,10 @@
 function initialize() {
 
+	var yourLat = 52.531283;
+	var yourLng = 13.422102;
+	var markerIcon = "./icon.png";
 	var mapProp = {
-		center: new google.maps.LatLng(52.531283, 13.422102),
+		center: new google.maps.LatLng(yourLat, yourLng),
 		zoom: 15,
 		mapTypeId: google.maps.MapTypeId.ROADMAP
 	};
@@ -14,7 +17,7 @@ function initialize() {
 
 		self.userInput = ko.observable();
 		self.markers = ko.observableArray([]);
-		self.sections = ko.observableArray(["food", "drinks", "coffee", "shops", "arts", "outdoors", "sights", "trending", "specials"]);
+		self.sections = ko.observableArray(["food", "drinks", "coffee", "shops", "arts", "outdoors"]);
 		self.infoWindows = ko.observableArray([]);
 		self.isVisible = ko.observable(true);
 
@@ -22,9 +25,10 @@ function initialize() {
 
 		var client_id = "4CPJVSPROXAN332ZFSRUGBVMW4LFWYOYMVTDEFQ2NOFUU42O";
 		var client_secret = "KSXNQ4KXF4SLJIQQ0UWMJR4ZWIXWGQ4CL4VW1D2IR1BC0XKV";
-		var location = "52.531283, 13.422102";
+		var location = yourLat + "," + yourLng;
 		var date = "20150602";
-		var baseUrl ="https://api.foursquare.com/v2/venues/explore?ll="+location+
+		var baseUrl ="https://api.foursquare.com/v2/venues/explore?"+
+			"ll="+location+
 			"&client_id="+client_id+
 			"&client_secret="+client_secret+
 			"&v="+date;
@@ -44,15 +48,41 @@ function initialize() {
 
 		self.applyMarkers = function (foursqPlaces, section) {
 			for (var i = 0; i < foursqPlaces.length; i++) {
-				var foursqPlace = foursqPlaces[i].venue;
-				var infoWContent = foursqPlace.name;
+
+				var foursqPlace = foursqPlaces[i];
+				var lng = foursqPlace.venue.location.lng;
+				var lat = foursqPlace.venue.location.lat;
+				var placeName = foursqPlace.venue.name
+				var category = foursqPlace.venue.categories[0].name;
+				var tips = "";
+				var openStatus = "";
+				var address = foursqPlace.venue.location.address;
+
+				if (foursqPlace.venue.hours) {
+					if (foursqPlace.venue.hours.isOpen) {
+						openStatus = foursqPlace.venue.hours.status;
+					} 
+				}
+
+				if (foursqPlace.tips) {
+					tips = foursqPlace.tips[0].text
+				}
+
+				var infoWContent = "<h3>" + placeName + "</h3>" +
+									"<p>" + category + "</p>"+
+									"<p>" + tips + "</p>"+
+									"<p>" + openStatus + "</p>" +
+									"<p>" + address + "</p>";
+
 				var marker = new google.maps.Marker ({
-					position: new google.maps.LatLng(foursqPlace.location.lat, foursqPlace.location.lng),
+					position: new google.maps.LatLng(lat,lng),
 					map: map,
-					title: foursqPlace.name,
+					title: placeName,
 					visible: true,
 					koVisible: ko.observable(true),
 					section: section,
+					icon: markerIcon,
+					animation: google.maps.Animation.DROP,
 					infoWindow: new google.maps.InfoWindow({content: infoWContent})
 				});
 				self.markers.push(marker);
