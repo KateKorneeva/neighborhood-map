@@ -4,6 +4,7 @@ html {
 
 body {
 	height: 100%;
+	background-color: #555;
 }
 
 .map {
@@ -15,10 +16,13 @@ body {
 
 .filtered-list {
 	position: absolute;
-	background-color: #ccc;
+	background-color: #f3f4f4;
+	color: #555;
+	font-family: sans-serif;
 	list-style: none;
 	cursor: pointer;
 	z-index: 1;
+	box-shadow: 1px 1px 1px 1px;
 }
 
 .filter-buttons {
@@ -28,8 +32,8 @@ body {
 
 .filter-buttons * {
 	border: none;
-	background-color: #3D9970;
-	color: #153;
+	background-color: #83cead;
+	color: #555;
 	padding: 10px;
 	font-size: 14px;
 	font-weight: bold;
