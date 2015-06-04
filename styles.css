@@ -4,25 +4,12 @@ html {
 
 body {
 	height: 100%;
-	background-color: #555;
+	margin: 0px;
 }
-
-.map {
-	width:100%;
-	height:100%;
+.controls {
+	left: 25%;
 	position: absolute;
-	/*z-index: -1;*/
-}
-
-.filtered-list {
-	position: absolute;
-	background-color: #f3f4f4;
-	color: #555;
-	font-family: sans-serif;
-	list-style: none;
-	cursor: pointer;
 	z-index: 1;
-	box-shadow: 1px 1px 1px 1px;
 }
 
 .filter-buttons {
@@ -30,15 +17,58 @@ body {
 	display: inline-block;
 }
 
-.filter-buttons * {
+.filter-buttons__btn {
 	border: none;
-	background-color: #83cead;
-	color: #555;
+	background-color: #777;
+	color: #f3f4f4;
 	padding: 10px;
 	font-size: 14px;
 	font-weight: bold;
+	box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);
+}
+
+.filter-buttons__btn--active {
+	background-color: #00abaa;
 }
 
 .search-field {
 	margin: 5px;
+	width: 300px;
+	height: 16px;
+	border: none;
+	padding: 10px;
+	box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);
+}
+
+.filtered-list {
+	background-color: #f3f4f4;
+	color: #777;
+	font-family: sans-serif;
+	font-size: 14px;
+	font-weight: bold;
+	list-style: none;
+	overflow: scroll;
+	height: 99%;
+	width: 15%;
+	margin: 0px;
+	padding: 0px;
+	display: inline-block;
+}
+
+.filtered-list__li {
+	cursor: pointer;
+	margin: 20px;
+	margin-left: 30px;
+	width: 100%;
+}
+
+.liActive {
+	color: #00abaa;
+}
+
+.map {
+	width:85%;
+	height:99%;
+	position: absolute;
+	display: inline-block;
 }

@@ -33,6 +33,7 @@ function initialize() {
 		self.isVisible = ko.observable(true);
 
 		var prevInfoWindow = false;
+		var prevMarker = false;
 
 		var client_id = "4CPJVSPROXAN332ZFSRUGBVMW4LFWYOYMVTDEFQ2NOFUU42O";
 		var client_secret = "KSXNQ4KXF4SLJIQQ0UWMJR4ZWIXWGQ4CL4VW1D2IR1BC0XKV";
@@ -42,7 +43,8 @@ function initialize() {
 			"ll="+location+
 			"&client_id="+client_id+
 			"&client_secret="+client_secret+
-			"&v="+date;
+			"&v="+date +
+			"&limit=20";
 
 		self.sendFoursqResponses = function () {
 			for (var i = 0; i < self.sections().length; i++) {
@@ -91,6 +93,7 @@ function initialize() {
 					title: placeName,
 					visible: true,
 					koVisible: ko.observable(true),
+					highlighted: ko.observable(false),
 					section: section,
 					icon: markerIcon,
 					animation: google.maps.Animation.DROP,
@@ -100,7 +103,8 @@ function initialize() {
 
 				google.maps.event.addListener(marker, 'click', (function(markerCopy) {
 					return function () {
-						self.openInfoWindow(markerCopy);
+						self.handlePlaceClicked(markerCopy);
+						markerCopy.highlighted(true);
 					};
 				})(marker));
 			}
@@ -139,7 +143,22 @@ function initialize() {
 				prevInfoWindow.close();
 			}
 			marker.infoWindow.open(map, marker);
+			marker.setAnimation(google.maps.Animation.BOUNCE);
+			setTimeout(function(){ marker.setAnimation(null); }, 750);
 			prevInfoWindow = marker.infoWindow;
+		}
+
+		self.highlightPlace = function (marker) {
+			if (prevMarker) {
+				prevMarker.highlighted(false);
+			}
+			marker.highlighted(true);
+			prevMarker = marker;
+		}
+
+		self.handlePlaceClicked = function (marker) {
+			self.highlightPlace(marker);
+			self.openInfoWindow(marker);
 		}
 
 		// This function updates two properties of marker at the same time.
