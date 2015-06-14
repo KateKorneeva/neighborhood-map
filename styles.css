@@ -19,16 +19,12 @@ body {
 
 .filter-buttons__btn {
 	border: none;
-	background-color: #777;
+	background-color: #009e9f;
 	color: #f3f4f4;
 	padding: 10px;
 	font-size: 14px;
 	font-weight: bold;
 	box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);
-}
-
-.filter-buttons__btn--active {
-	background-color: #00abaa;
 }
 
 .search-field {
@@ -63,7 +59,7 @@ body {
 }
 
 .liActive {
-	color: #00abaa;
+	color: #009e9f;
 }
 
 .map {

@@ -34,6 +34,7 @@ function initialize() {
 
 		var prevInfoWindow = false;
 		var prevMarker = false;
+		// var prevFilter = false;
 
 		var client_id = "4CPJVSPROXAN332ZFSRUGBVMW4LFWYOYMVTDEFQ2NOFUU42O";
 		var client_secret = "KSXNQ4KXF4SLJIQQ0UWMJR4ZWIXWGQ4CL4VW1D2IR1BC0XKV";
@@ -155,6 +156,14 @@ function initialize() {
 			marker.highlighted(true);
 			prevMarker = marker;
 		}
+
+//		self.highlightFilter = function (filter) {
+// 			if (prevFilter) {
+// 				prevFilter.highlighted(false);
+// 			}
+// 			marker.highlighted(true);
+// 			prevMarker = marker;
+// 		}
 
 		self.handlePlaceClicked = function (marker) {
 			self.highlightPlace(marker);

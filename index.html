@@ -9,7 +9,7 @@
 		<div class="controls">
 			<input class="search-field" type="text" data-bind="value: userInput, valueUpdate: 'input', event: {input: filterMarkers}" />
 			<div class="filter-buttons">
-				<button class="filter-buttons__btn filter-buttons__btn--active" data-bind = "click: filterMarkersByType('')">all places</button>
+				<button class="filter-buttons__btn" data-bind = "click: filterMarkersByType('')">all places</button>
 			</div>
 			<div class="filter-buttons" data-bind = "foreach: sections">
 				<button class="filter-buttons__btn" data-bind = "text: $data, click: $parent.filterMarkersByType($data)"></button>
